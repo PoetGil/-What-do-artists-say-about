@@ -21,8 +21,6 @@
     Object.entries(GROUP_SLUGS).map(([group, slug]) => [slug, group === 'all' ? 'all' : group])
   );
 
-  const BREATH_AMPLITUDE = 0.01;
-  const BREATH_DURATION_MS = 13500;
   const TERRITORY_TRANSITION_MS = 900;
   const GLASS_GAP_PX = 10;
   const LABEL_SIZE_BONUS = 2;
@@ -55,10 +53,7 @@
   let gRoot = null;
   let gGlass = null;
   let gLabels = null;
-  let breathFrameId = null;
-  let breathStart = 0;
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
   const dom = {};
 
   let themeTaxonomy = new Map();
@@ -813,7 +808,6 @@
 
     renderMobileThemes(themeNodes);
     updateSearchStatus();
-    startBreathing();
   }
 
   function renderMobileThemes(nodes) {
@@ -836,46 +830,6 @@
       li.appendChild(btn);
       list.appendChild(li);
     });
-  }
-
-  // ---------------------------------------------------------------------------
-  // Breathing animation — whole map
-  // ---------------------------------------------------------------------------
-
-  function startBreathing() {
-    stopBreathing();
-    if (prefersReducedMotion || state.view !== 'home' || !gRoot) return;
-
-    breathStart = performance.now();
-
-    function tick(now) {
-      if (state.view !== 'home' || !gRoot) return;
-
-      const elapsed = now - breathStart;
-      const cycle = (elapsed % BREATH_DURATION_MS) / BREATH_DURATION_MS;
-      const breath = 1 + BREATH_AMPLITUDE * Math.sin(cycle * Math.PI * 2);
-
-      const { width, height } = getConstellationSize();
-      const cx = width / 2;
-      const cy = height / 2;
-
-      gRoot.attr(
-        'transform',
-        `translate(${cx},${cy}) scale(${breath}) translate(${-cx},${-cy})`
-      );
-
-      breathFrameId = requestAnimationFrame(tick);
-    }
-
-    breathFrameId = requestAnimationFrame(tick);
-  }
-
-  function stopBreathing() {
-    if (breathFrameId) {
-      cancelAnimationFrame(breathFrameId);
-      breathFrameId = null;
-    }
-    if (gRoot) gRoot.attr('transform', null);
   }
 
   // ---------------------------------------------------------------------------
@@ -979,7 +933,6 @@
   }
 
   function showThemeView(theme, replace = false) {
-    stopBreathing();
     clearTaxonomyHover();
     hideTooltip();
 
