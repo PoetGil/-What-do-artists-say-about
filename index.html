@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactive visualization of interview quotations from Dr Gil Dekel's PhD research into creativity and inspiration.">
+  <title>What do artists say about…</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="app">
+    <aside class="panel" aria-label="Information and filters">
+      <p class="panel-intro">
+        Visualization of interviews with poets, painters and installation artists conducted as part of <strong>Dr Gil Dekel's</strong>
+        <a
+          href="https://www.poeticmind.co.uk/research/phd-thesis/01-thesis-title-page/"
+          class="external-link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >PhD research</a>
+        into the processes of creativity and inspiration.
+      </p>
+
+      <fieldset class="filters" id="artist-filters">
+        <legend class="visually-hidden">Artist group</legend>
+        <label class="radio">
+          <input type="radio" name="artist-group" value="all" checked>
+          <span>All artists</span>
+        </label>
+        <label class="radio">
+          <input type="radio" name="artist-group" value="Poets">
+          <span>Poets</span>
+        </label>
+        <label class="radio">
+          <input type="radio" name="artist-group" value="Painters">
+          <span>Painters</span>
+        </label>
+        <label class="radio">
+          <input type="radio" name="artist-group" value="Installation artists">
+          <span>Installation artists</span>
+        </label>
+      </fieldset>
+
+      <div class="panel-search">
+        <label for="search-input" class="visually-hidden">Search themes, artists, and quotations</label>
+        <input
+          type="search"
+          id="search-input"
+          placeholder="Search…"
+          autocomplete="off"
+          aria-controls="search-results-status"
+        >
+        <p id="search-results-status" class="search-status visually-hidden" aria-live="polite"></p>
+      </div>
+
+      <p class="panel-home">
+        <a href="#" id="home-link" class="home-link">Back to home</a>
+      </p>
+    </aside>
+
+    <main class="main" id="main-content">
+      <header class="main-header">
+        <h1 class="site-title">What do artists say about…</h1>
+      </header>
+
+      <section id="view-home" class="view view-home" aria-label="Theme territory map">
+        <div id="constellation" class="constellation" aria-label="Interactive territory map. Use Tab to navigate themes and Enter to explore."></div>
+        <ul id="mobile-themes" class="mobile-themes" aria-label="Theme list"></ul>
+      </section>
+
+      <section id="view-theme" class="view view-theme hidden" aria-label="Theme quotations" hidden>
+        <h2 id="theme-heading" class="theme-heading"></h2>
+
+        <div id="quotations" class="quotations" role="list"></div>
+      </section>
+    </main>
+
+    <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
